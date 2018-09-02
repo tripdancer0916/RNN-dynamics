@@ -93,12 +93,27 @@ for k in range(100):
         t = Variable(t)
         model.cleargrads()
         loss = model(x, t)
+        """
         if i % 1000 == 0:
             print(int(i / 1000), loss.data)
+        """
         loss.backward()
         optimizer.update()
         loss.unchain_backward()
         # loss.unchain_backward()
+
+    correct = 0
+    wrong = 0
+    for i in range(txs_9.shape[0]):
+        singlernn.reset_state()
+        x = np.expand_dims(txs_9[i], axis=0)
+        y = F.softmax(singlernn(x))
+        output = np.argmax(y.data[0])
+        if output == tts_9[i]:
+            correct = correct + 1
+        else:
+            wrong = wrong + 1
+    print(k, correct / (correct + wrong))
 
     x = np.expand_dims(txs[12], axis=0)
     output = []
