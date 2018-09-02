@@ -51,11 +51,9 @@ class SingleRNN(chainer.Chain):
             l3=L.Linear(hidden1, classes)
         )
         self.hidden1 = hidden1
-        # self.hidden2 = hidden2
 
     def reset_state(self):
         self.h1 = Variable(np.zeros((1, self.hidden1), dtype=np.float32))
-        # self.h2 = Variable(np.zeros((1,self.hidden2), dtype=np.float32))
 
     def __call__(self, x):
         self.h1 = F.tanh(self.r1(self.h1) + self.l1(x))
@@ -80,7 +78,7 @@ class Classifier(chainer.Chain):
 
 for k in range(100):
     plt.figure()
-    singlernn = SingleRNN(784, 100, 9)
+    singlernn = SingleRNN(784, 200, 9)
     singlernn.reset_state()
     model = Classifier(singlernn)
     # Setup optimizer
@@ -106,14 +104,9 @@ for k in range(100):
     output = []
     singlernn.reset_state()
     gamma = 0
-    zero = np.zeros(784).astype("float32")
-    zero = np.expand_dims(zero, axis=0)
     for i in range(500):
         y = singlernn(x)
         output.append(y.data[0])
-        for j in range(8):
-            y = singlernn(zero)
-            y = singlernn(zero)
     output = np.array(output)
     for i in range(8):
         if i == 4:
