@@ -13,7 +13,7 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
-os.makedirs('./result', exist_ok=True)
+os.makedirs('./result_ln8', exist_ok=True)
 
 # Load the MNIST dataset
 train, test = chainer.datasets.get_mnist()
@@ -116,7 +116,13 @@ for k in range(100):
             y = singlernn(zero)
     output = np.array(output)
     for i in range(8):
-        plt.plot(output.T[i][450:])
-    plt.savefig("./result/{}.png".format(k))
+        if i == 4:
+            plt.plot(output.T[i][450:], label='softmax-4')
+        elif i == 7:
+            plt.plot(output.T[i][450:], label='softmax-7')
+        else:
+            plt.plot(output.T[i][450:])
+    plt.legend()
+    plt.savefig("./result/{}_ln8.png".format(k))
 
 
