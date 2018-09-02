@@ -2,7 +2,7 @@ import numpy as np
 import chainer
 from chainer.backends import cuda
 from chainer import Function, gradient_check, report, training, utils, Variable
-from chainer  import datasets, iterators, optimizers, serializers
+from chainer import datasets, iterators, optimizers, serializers
 from chainer import Link, Chain, ChainList
 import chainer.functions as F
 import chainer.links as L
@@ -10,6 +10,7 @@ from chainer.training import extensions
 import PIL
 import os
 import matplotlib as mpl
+
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
@@ -41,6 +42,7 @@ txs_9 = np.array(txs_9)
 tts_9 = np.array(tts_9)
 
 loop_n = 8
+
 
 # Network definition
 class SingleRNN(chainer.Chain):
@@ -85,22 +87,17 @@ for k in range(100):
     optimizer = optimizers.SGD()
     optimizer.setup(model)
 
-    for i in range(5000):
+    for i in range(20000):
         index = np.random.choice(range(50000))
-        # index = 0
+        singlernn.reset_state()
         x = np.expand_dims(xs_9[index], axis=0)
         t = np.expand_dims(ts_9[index], axis=0)
         t = Variable(t)
         model.cleargrads()
         loss = model(x, t)
-        """
-        if i % 1000 == 0:
-            print(int(i / 1000), loss.data)
-        """
         loss.backward()
         optimizer.update()
         loss.unchain_backward()
-        # loss.unchain_backward()
 
     correct = 0
     wrong = 0
@@ -132,5 +129,3 @@ for k in range(100):
             plt.plot(output.T[i][450:])
     plt.legend()
     plt.savefig("./result_ln8/{}_ln8.png".format(k))
-
-
