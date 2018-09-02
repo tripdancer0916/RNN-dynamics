@@ -79,6 +79,7 @@ class Classifier(chainer.Chain):
 
 
 for k in range(100):
+    plt.figure()
     singlernn = SingleRNN(784, 100, 9)
     singlernn.reset_state()
     model = Classifier(singlernn)
