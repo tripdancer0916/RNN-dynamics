@@ -123,6 +123,6 @@ for k in range(100):
         else:
             plt.plot(output.T[i][450:])
     plt.legend()
-    plt.savefig("./result/{}_ln8.png".format(k))
+    plt.savefig("./result_ln8/{}_ln8.png".format(k))
 
 
