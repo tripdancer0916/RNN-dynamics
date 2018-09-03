@@ -14,7 +14,7 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
-os.makedirs('./result_ln5', exist_ok=True)
+os.makedirs('./result_ln4_2layer', exist_ok=True)
 
 # Load the MNIST dataset
 train, test = chainer.datasets.get_mnist()
@@ -41,27 +41,34 @@ ts_9 = np.array(ts_9)
 txs_9 = np.array(txs_9)
 tts_9 = np.array(tts_9)
 
-loop_n = 5
+loop_n = 4
 
 
 # Network definition
 class SingleRNN(chainer.Chain):
-    def __init__(self, input_shape, hidden1, classes):
+    def __init__(self, input_shape, hidden1, hidden2, classes):
         super(SingleRNN, self).__init__(
             l1=L.Linear(input_shape, hidden1),
             r1=L.Linear(hidden1, hidden1),
-            l3=L.Linear(hidden1, classes)
+            l2=L.Linear(hidden1, hidden2),
+            r2=L.Linear(hidden2, hidden2),
+            l3=L.Linear(hidden2, classes)
         )
         self.hidden1 = hidden1
+        self.hidden2 = hidden2
 
     def reset_state(self):
         self.h1 = Variable(np.zeros((1, self.hidden1), dtype=np.float32))
+        self.h2 = Variable(np.zeros((1, self.hidden2), dtype=np.float32))
 
     def __call__(self, x):
         self.h1 = F.tanh(self.r1(self.h1) + self.l1(x))
         for i in range(loop_n):
             self.h1 = F.tanh(self.r1(self.h1))
-        y = self.l3(self.h1)
+        self.h2 = F.tanh(self.r2(self.h2) + self.l2(self.h1))
+        for i in range(loop_n):
+            self.h2 = F.tanh(self.r2(self.h2))
+        y = self.l3(self.h2)
         return y
 
 
@@ -80,7 +87,7 @@ class Classifier(chainer.Chain):
 
 for k in range(100):
     plt.figure()
-    singlernn = SingleRNN(784, 200, 9)
+    singlernn = SingleRNN(784, 200, 200, 9)
     # singlernn.reset_state()
     model = Classifier(singlernn)
     # Setup optimizer
@@ -122,10 +129,10 @@ for k in range(100):
     output = np.array(output)
     for i in range(8):
         if i == 4:
-            plt.plot(output.T[i][450:], label='softmax-4')
+            plt.plot(output.T[i][450:], label='output-4')
         elif i == 7:
-            plt.plot(output.T[i][450:], label='softmax-7')
+            plt.plot(output.T[i][450:], label='output-7')
         else:
             plt.plot(output.T[i][450:])
     plt.legend()
-    plt.savefig("./result_ln5/{}_ln5.png".format(k))
+    plt.savefig("./result_ln4_2layer/{}_ln4_2layer.png".format(k))
