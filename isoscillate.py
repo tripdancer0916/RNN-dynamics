@@ -50,7 +50,7 @@ class SingleRNN(chainer.Chain):
         super(SingleRNN, self).__init__(
             l1=L.Linear(input_shape, hidden1, initial_bias=np.random.normal(0, 0.01, hidden1)),
             r1=L.Linear(hidden1, hidden1, initial_bias=np.random.normal(0, 0.01, hidden1)),
-            l3=L.Linear(hidden1, classes, initial_bias=np.random.normal(0, 0.01, hidden1))
+            l3=L.Linear(hidden1, classes, initial_bias=np.random.normal(0, 0.01, classes))
         )
         self.hidden1 = hidden1
 
@@ -87,7 +87,7 @@ for k in range(100):
     optimizer = optimizers.SGD()
     optimizer.setup(model)
 
-    for i in range(10000):
+    for i in range(15000):
         index = np.random.choice(range(50000))
         # singlernn.reset_state()
         x = np.expand_dims(xs_9[index], axis=0)
