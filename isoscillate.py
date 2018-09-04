@@ -81,7 +81,7 @@ class Classifier(chainer.Chain):
 for k in range(100):
     plt.figure()
     singlernn = SingleRNN(784, 200, 9)
-    # singlernn.reset_state()
+    singlernn.reset_state()
     model = Classifier(singlernn)
     # Setup optimizer
     optimizer = optimizers.SGD()
