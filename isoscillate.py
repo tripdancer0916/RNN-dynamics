@@ -14,7 +14,7 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
-os.makedirs('./result_ln7', exist_ok=True)
+os.makedirs('./result_ln6', exist_ok=True)
 
 # Load the MNIST dataset
 train, test = chainer.datasets.get_mnist()
@@ -41,7 +41,7 @@ ts_9 = np.array(ts_9)
 txs_9 = np.array(txs_9)
 tts_9 = np.array(tts_9)
 
-loop_n = 7
+loop_n = 6
 
 
 # Network definition
@@ -121,11 +121,6 @@ for k in range(100):
         output.append(y.data[0])
     output = np.array(output)
     for i in range(8):
-        if i == 4:
-            plt.plot(output.T[i][450:], label='softmax-4')
-        elif i == 7:
-            plt.plot(output.T[i][450:], label='softmax-7')
-        else:
-            plt.plot(output.T[i][450:])
+        plt.plot(output.T[i][450:], label='{}'.format(int(i)))
     plt.legend()
-    plt.savefig("./result_ln7/{}_ln7.png".format(k))
+    plt.savefig("./result_ln6/{}_ln6.png".format(k))
