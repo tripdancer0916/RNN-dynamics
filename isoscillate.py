@@ -14,7 +14,7 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
-os.makedirs('./result_ln3', exist_ok=True)
+os.makedirs('./result_ln7', exist_ok=True)
 
 # Load the MNIST dataset
 train, test = chainer.datasets.get_mnist()
@@ -41,16 +41,16 @@ ts_9 = np.array(ts_9)
 txs_9 = np.array(txs_9)
 tts_9 = np.array(tts_9)
 
-loop_n = 3
+loop_n = 7
 
 
 # Network definition
 class SingleRNN(chainer.Chain):
     def __init__(self, input_shape, hidden1, classes):
         super(SingleRNN, self).__init__(
-            l1=L.Linear(input_shape, hidden1),
-            r1=L.Linear(hidden1, hidden1),
-            l3=L.Linear(hidden1, classes)
+            l1=L.Linear(input_shape, hidden1, initial_bias=np.random.normal(0, 0.01, hidden1)),
+            r1=L.Linear(hidden1, hidden1, initial_bias=np.random.normal(0, 0.01, hidden1)),
+            l3=L.Linear(hidden1, classes, initial_bias=np.random.normal(0, 0.01, hidden1))
         )
         self.hidden1 = hidden1
 
@@ -87,9 +87,9 @@ for k in range(100):
     optimizer = optimizers.SGD()
     optimizer.setup(model)
 
-    for i in range(20000):
+    for i in range(10000):
         index = np.random.choice(range(50000))
-        singlernn.reset_state()
+        # singlernn.reset_state()
         x = np.expand_dims(xs_9[index], axis=0)
         t = np.expand_dims(ts_9[index], axis=0)
         t = Variable(t)
@@ -128,4 +128,4 @@ for k in range(100):
         else:
             plt.plot(output.T[i][450:])
     plt.legend()
-    plt.savefig("./result_ln3/{}_ln3.png".format(k))
+    plt.savefig("./result_ln7/{}_ln7.png".format(k))

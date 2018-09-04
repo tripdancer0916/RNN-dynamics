@@ -122,7 +122,6 @@ for k in range(100):
     x = np.expand_dims(txs[12], axis=0)
     output = []
     singlernn.reset_state()
-    gamma = 0
     for i in range(500):
         y = singlernn(x)
         output.append(y.data[0])
