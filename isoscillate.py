@@ -14,7 +14,7 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
-os.makedirs('./result_ln8_', exist_ok=True)
+os.makedirs('./result_ln10', exist_ok=True)
 
 # Load the MNIST dataset
 train, test = chainer.datasets.get_mnist()
@@ -41,7 +41,7 @@ ts_9 = np.array(ts_9)
 txs_9 = np.array(txs_9)
 tts_9 = np.array(tts_9)
 
-loop_n = 8
+loop_n = 10
 
 
 # Network definition
@@ -123,4 +123,4 @@ for k in range(100):
     for i in range(9):
         plt.plot(output.T[i][450:], label='{}'.format(int(i)))
     plt.legend()
-    plt.savefig("./result_ln8/{}_ln8.png".format(k))
+    plt.savefig("./result_ln10/{}_ln10.png".format(k))
