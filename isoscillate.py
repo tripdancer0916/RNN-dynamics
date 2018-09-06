@@ -41,7 +41,7 @@ ts_9 = np.array(ts_9)
 txs_9 = np.array(txs_9)
 tts_9 = np.array(tts_9)
 
-loop_n = 10
+loop_n = 0
 
 
 # Network definition
