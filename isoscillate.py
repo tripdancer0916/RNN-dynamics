@@ -14,7 +14,7 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
-os.makedirs('./result_ln10', exist_ok=True)
+os.makedirs('./result_ln0', exist_ok=True)
 
 # Load the MNIST dataset
 train, test = chainer.datasets.get_mnist()
@@ -123,4 +123,4 @@ for k in range(100):
     for i in range(9):
         plt.plot(output.T[i][450:], label='{}'.format(int(i)))
     plt.legend()
-    plt.savefig("./result_ln10/{}_ln10.png".format(k))
+    plt.savefig("./result_ln0/{}_ln0.png".format(k))
