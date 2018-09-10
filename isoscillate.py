@@ -124,5 +124,5 @@ for k in range(100):
         plt.plot(output.T[i][450:], label='{}'.format(int(i)))
     plt.legend()
     plt.savefig("./result_ln10/{}_ln10.png".format(k))
-    serializers.save_npz("./result_ln10/{}_ln10.npz", singlernn)
+    serializers.save_npz("./result_ln10/{}_ln10.npz".format(k), singlernn)
 
